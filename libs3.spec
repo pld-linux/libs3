@@ -6,7 +6,7 @@ Summary:	C library and tools for Amazon S3 access
 Summary(pl.UTF-8):	Biblioteka C i narzędzia do dostępu do Amazon S3
 Name:		libs3
 Version:	2.0
-Release:	1
+Release:	2
 License:	GPL v3 with OpenSSL exception
 Group:		Libraries
 Source0:	http://libs3.ischo.com.s3.amazonaws.com/%{name}-%{version}.tar.gz
