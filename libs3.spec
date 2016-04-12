@@ -11,7 +11,7 @@ License:	GPL v3 with OpenSSL exception
 Group:		Libraries
 Source0:	http://libs3.ischo.com.s3.amazonaws.com/%{name}-%{version}.tar.gz
 # Source0-md5:	e52da69ddc11019e98cf8246fc55b4e1
-URL:		http://libs3.ischo.com.s3.amazonaws.com/index.html
+URL:		https://github.com/bji/libs3
 BuildRequires:	curl-devel
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	libxml2-devel
