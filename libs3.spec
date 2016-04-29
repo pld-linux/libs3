@@ -1,12 +1,12 @@
 #
 # Conditional build:
 %bcond_without	apidocs		# do not build and package API docs
-#
+
 Summary:	C library and tools for Amazon S3 access
 Summary(pl.UTF-8):	Biblioteka C i narzędzia do dostępu do Amazon S3
 Name:		libs3
 Version:	2.0
-Release:	2
+Release:	3
 License:	GPL v3 with OpenSSL exception
 Group:		Libraries
 Source0:	http://libs3.ischo.com.s3.amazonaws.com/%{name}-%{version}.tar.gz
@@ -20,13 +20,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This package includes the libs3 shared library needed to run
-applications using libs3 and additionally contains the s3 utility
-for accessing Amazon S3.
+applications using libs3 and additionally contains the s3 utility for
+accessing Amazon S3.
 
 %description -l pl.UTF-8
 Ten pakiet zawiera bibliotekę współdzieloną libs3 niezbędną do
-uruchamiania aplikacji wykorzystujących libs3 oraz dodatkowo
-narzędzie s3 pozwalające na dostęp do Amazon S3.
+uruchamiania aplikacji wykorzystujących libs3 oraz dodatkowo narzędzie
+s3 pozwalające na dostęp do Amazon S3.
 
 %package devel
 Summary:	Header files for libs3 library
@@ -59,6 +59,9 @@ Statyczna biblioteka libs3.
 Summary:	libs3 API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libs3
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API and internal documentation for libs3 library.
