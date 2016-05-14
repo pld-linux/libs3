@@ -6,11 +6,12 @@ Summary:	C library and tools for Amazon S3 access
 Summary(pl.UTF-8):	Biblioteka C i narzędzia do dostępu do Amazon S3
 Name:		libs3
 Version:	2.0
-Release:	3
+Release:	4
 License:	GPL v3 with OpenSSL exception
 Group:		Libraries
 Source0:	http://libs3.ischo.com.s3.amazonaws.com/%{name}-%{version}.tar.gz
 # Source0-md5:	e52da69ddc11019e98cf8246fc55b4e1
+Patch0:		%{name}-make.patch
 URL:		https://github.com/bji/libs3
 BuildRequires:	curl-devel
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -71,10 +72,13 @@ Dokumentacja API biblioteki libs3.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
-CFLAGS="%{rpmcflags}" \
+CFLAGS="%{rpmcflags} %{rpmcppflags}" \
 %{__make} exported \
+	CC="%{__cc}" \
+	LDOPTS="%{rpmldflags}" \
 	VERBOSE=1
 
 %{?with_apidocs:doxygen}
@@ -86,8 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT%{_prefix}
 
 %if "%{_lib}" != "lib"
-mv -f $RPM_BUILD_ROOT%{_prefix}/{lib,%{_lib}}
+%{__mv} $RPM_BUILD_ROOT%{_prefix}/{lib,%{_lib}}
 %endif
+
+# let rpm generate dependencies
+chmod 755 $RPM_BUILD_ROOT%{_libdir}/libs3.so*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
