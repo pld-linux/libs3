@@ -5,17 +5,21 @@
 Summary:	C library and tools for Amazon S3 access
 Summary(pl.UTF-8):	Biblioteka C i narzędzia do dostępu do Amazon S3
 Name:		libs3
-Version:	2.0
-Release:	4
-License:	GPL v3 with OpenSSL exception
+Version:	4.1
+%define	gitref	287e4bee6fd430ffb52604049de80a27a77ff6b4
+%define	snap	20190410
+%define	rel	1
+Release:	0.%{snap}.%{rel}
+License:	LGPL v3+ or GPL v2 with OpenSSL exception
 Group:		Libraries
-Source0:	http://libs3.ischo.com.s3.amazonaws.com/%{name}-%{version}.tar.gz
-# Source0-md5:	e52da69ddc11019e98cf8246fc55b4e1
+#Source0Download: https://github.com/bji/libs3/releases
+Source0:	https://github.com/bji/libs3/archive/%{gitref}/%{name}-%{snap}.tar.gz
+# Source0-md5:	e5600266b8430bdf5dd8d44869857b32
 Patch0:		%{name}-make.patch
 URL:		https://github.com/bji/libs3
 BuildRequires:	curl-devel
 %{?with_apidocs:BuildRequires:	doxygen}
-BuildRequires:	libxml2-devel
+BuildRequires:	libxml2-devel >= 2
 BuildRequires:	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -35,7 +39,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libs3
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	curl-devel
-Requires:	libxml2-devel
+Requires:	libxml2-devel >= 2
 Requires:	openssl-devel
 
 %description devel
@@ -60,7 +64,7 @@ Statyczna biblioteka libs3.
 Summary:	libs3 API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libs3
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
+%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
 
@@ -71,7 +75,7 @@ API and internal documentation for libs3 library.
 Dokumentacja API biblioteki libs3.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{gitref}
 %patch0 -p1
 
 %build
@@ -87,11 +91,8 @@ CFLAGS="%{rpmcflags} %{rpmcppflags}" \
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT%{_prefix}
-
-%if "%{_lib}" != "lib"
-%{__mv} $RPM_BUILD_ROOT%{_prefix}/{lib,%{_lib}}
-%endif
+	DESTDIR=$RPM_BUILD_ROOT%{_prefix} \
+	LIBDIR=$RPM_BUILD_ROOT%{_libdir}
 
 # let rpm generate dependencies
 chmod 755 $RPM_BUILD_ROOT%{_libdir}/libs3.so*
@@ -107,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc ChangeLog LICENSE README TODO
 %attr(755,root,root) %{_bindir}/s3
 %attr(755,root,root) %{_libdir}/libs3.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libs3.so.2
+%attr(755,root,root) %ghost %{_libdir}/libs3.so.4
 
 %files devel
 %defattr(644,root,root,755)
@@ -121,5 +122,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
-%doc dox/html/*
+%doc dox/html/*.{css,html,js,png}
 %endif
