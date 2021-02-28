@@ -64,9 +64,7 @@ Statyczna biblioteka libs3.
 Summary:	libs3 API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libs3
 Group:		Documentation
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API and internal documentation for libs3 library.
