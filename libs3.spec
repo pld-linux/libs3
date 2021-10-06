@@ -8,7 +8,7 @@ Name:		libs3
 Version:	4.1
 %define	gitref	287e4bee6fd430ffb52604049de80a27a77ff6b4
 %define	snap	20190410
-%define	rel	1
+%define	rel	2
 Release:	0.%{snap}.%{rel}
 License:	LGPL v3+ or GPL v2 with OpenSSL exception
 Group:		Libraries
@@ -16,6 +16,7 @@ Group:		Libraries
 Source0:	https://github.com/bji/libs3/archive/%{gitref}/%{name}-%{snap}.tar.gz
 # Source0-md5:	e5600266b8430bdf5dd8d44869857b32
 Patch0:		%{name}-make.patch
+Patch1:		no-Werror.patch
 URL:		https://github.com/bji/libs3
 BuildRequires:	curl-devel
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -75,6 +76,7 @@ Dokumentacja API biblioteki libs3.
 %prep
 %setup -q -n %{name}-%{gitref}
 %patch0 -p1
+%patch1 -p1
 
 %build
 CFLAGS="%{rpmcflags} %{rpmcppflags}" \
@@ -89,6 +91,7 @@ CFLAGS="%{rpmcflags} %{rpmcppflags}" \
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
+	STRIP=/bin/true \
 	DESTDIR=$RPM_BUILD_ROOT%{_prefix} \
 	LIBDIR=$RPM_BUILD_ROOT%{_libdir}
 
