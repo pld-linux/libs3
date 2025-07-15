@@ -8,7 +8,7 @@ Name:		libs3
 Version:	4.1
 %define	gitref	287e4bee6fd430ffb52604049de80a27a77ff6b4
 %define	snap	20190410
-%define	rel	3
+%define	rel	4
 Release:	0.%{snap}.%{rel}
 License:	LGPL v3+ or GPL v2 with OpenSSL exception
 Group:		Libraries
